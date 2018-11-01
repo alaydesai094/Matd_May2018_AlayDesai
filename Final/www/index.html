@@ -15,19 +15,24 @@
 	<h1>SuperHeros Rescue Agency</h1>
 		<form name="form1" action="#">		
         <button id="inhero"> Insert Heros </button>
-		<!--- Insert form --->
-		<form name="insert" action="#" >		
-		From :  <input type="text" id="name" required> <br>
-        To :  <input type="text" id="isav" required>
-        <button id="rideButton"> Find My Ride </button>
-		<span id="status"></span>
-		</form>
+		
 		
 		
 		<button id="showhero"> Show Heros </button>
 		<button id="rescue"> Rescue Me!!</button>
 		</form>
         
+		
+		<!--- Insert form --->
+		<h1>insert</h1>
+		<form name="insert" action="#" visibility="hidden">		
+		Name :  <input type="text" id="name" required><br>
+        isAvailable :  <input type="text" id="isav" required>
+        <button id="save"> save </button>
+		<span id="status"></span>
+		</form>
+		
+		
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
     </body>

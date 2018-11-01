@@ -12,7 +12,7 @@ function connectToDatabase() {
     // For browsers, use this syntax:
     //  (nameOfDb, version number, description, db size)
     // By default, set version to 1.0, and size to 2MB
-    db = window.openDatabase("superdb", "1.0", "Database for SuperHeros Rescue Agency app");
+  // db = window.openDatabase("superdb", "1.0", "Database for SuperHeros Rescue Agency app",2 * 1024 * 1024);
   }
   else {
     alert("mobile device detected");
@@ -41,7 +41,6 @@ function onReadyTransaction( ){
 	function onSuccessExecuteSql( tx, results ){
 		console.log( 'Execute SQL completed' );
 	alert( "Execute SQL completed" );
-	 document.querySelector('#status').innerHTML = msg;
 	}
 	function onError( err ){
 		console.log( err )
@@ -68,6 +67,7 @@ db.transaction(
 
 
 document.getElementById("inhero").addEventListener("click", inserthero);
+document.getElementById("save").addEventListener("click", savehero);
 document.getElementById("showhero").addEventListener("click", showhero);
 document.getElementById("rescue").addEventListener("click", rescue);
 
@@ -80,11 +80,20 @@ function inserthero() {
   console.log("insert button pressed!");
   alert("insert button pressed!");
 	
+}
+
+function savehero() {
+  // debug:
+  console.log("save button pressed!");
+  alert("save button pressed!");
+	
 db.transaction(
 		function(query){
 			query.executeSql( "INSERT INTO heros(name,isAvailable) VALUES(?)",
 			[name,isav],
+		
 			onSuccessExecuteSql,
+			displayResults,
 			onError )
 		},
 		onError,
@@ -94,10 +103,45 @@ db.transaction(
 	
 }
 
+function displayResults( query, results ){
+	
+		document.querySelector('#status').innerHTML = msg;
+	
+		if(results.rows.length == 0) {
+			alert("No records found");
+			return false;
+		}
+		
+		var row = "";
+		for(var i=0; i<results.rows.length; i++) {
+			row += results.rows.item(i).rules + "<br/>";
+		}
+		document.body.innerHTML = row
+	}
+
+
+
+
+
 function showhero() {
   //debug:
   console.log("show button pressed!");
   alert("show button pressed!");
+	
+	db.transaction(
+		function(query){
+			query.executeSql( "SELECT * FROM heros",
+	
+			onSuccessExecuteSql,
+			displayResults,
+			onError )
+		},
+		onError,
+		onReadyTransaction
+	)
+	
+	
+	
 }
 
 function rescue() {
