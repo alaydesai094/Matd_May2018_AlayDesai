@@ -1,46 +1,57 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-var app = {
-    // Application Constructor
-    initialize: function() {
-        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
-    },
+document.addEventListener("deviceready", connectToDatabase);
 
-    // deviceready Event Handler
-    //
-    // Bind any cordova events here. Common events are:
-    // 'pause', 'resume', etc.
-    onDeviceReady: function() {
-        this.receivedEvent('deviceready');
-    },
 
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
+var db = null;
 
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
+function connectToDatabase() {
+  console.log("device is ready - connecting to database");
+  // 2. open the database. The code is depends on your platform!
+  if (window.cordova.platformId === 'browser') {
+    console.log("browser detected...");
+    // For browsers, use this syntax:
+    //  (nameOfDb, version number, description, db size)
+    // By default, set version to 1.0, and size to 2MB
+    db = window.openDatabase("superhero", "1.0", "Database for SuperHeros Rescue Agency app");
+  }
+  else {
+    alert("mobile device detected");
+    console.log("mobile device detected!");
+    var databaseDetails = {"name":"superhero.db", "location":"default"}
+    db = window.sqlitePlugin.openDatabase(databaseDetails);
+    console.log("done opening db");
+	alert("done opening db");
 
-        console.log('Received Event: ' + id);
-    }
-};
+	
+  }
 
-app.initialize();
+  if (!db) {
+    alert("databse not opened!");
+    return false;
+  }
+
+}
+
+
+document.getElementById("inhero").addEventListener("click", inserthero);
+document.getElementById("showhero").addEventListener("click", showhero);
+document.getElementById("rescue").addEventListener("click", rescue);
+
+function inserthero() {
+  // debug:
+  console.log("insert button pressed!");
+  alert("insert button pressed!");
+}
+
+function showhero() {
+  //debug:
+  console.log("show button pressed!");
+  alert("show button pressed!");
+}
+
+function rescue() {
+  //debug:
+  console.log("rescue button pressed!");
+  alert("Rescue button pressed!");
+}
+
+
