@@ -89,9 +89,8 @@ function savehero() {
 	
 db.transaction(
 		function(query){
-			query.executeSql( "INSERT INTO heros(name,isAvailable) VALUES(?)",
-			[name,isav],
-		
+			var sql = "INSERT INTO heros(name,isAvailable) VALUES(?,?)";
+			query.executeSql( sql, [name,isav],
 			onSuccessExecuteSql,
 			displayResults,
 			onError )
@@ -130,8 +129,8 @@ function showhero() {
 	
 	db.transaction(
 		function(query){
-			query.executeSql( "SELECT * FROM heros",
-	
+			var sql = "SELECT * FROM heros";
+			query.executeSql( sql,
 			onSuccessExecuteSql,
 			displayResults,
 			onError )
